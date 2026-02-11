@@ -14,8 +14,8 @@ class Solution {
         int stColor=image[sr][sc];
         if(stColor==color) return image;
         q.offer(new int[]{sr,sc});
-        boolean[][]isVis=new boolean[n][m];
-        isVis[sr][sc]=true;
+        // boolean[][]isVis=new boolean[n][m];
+        // isVis[sr][sc]=true;
         while(!q.isEmpty()){
             int[]cur=q.poll();
             int row=cur[0];
@@ -24,8 +24,8 @@ class Solution {
             for(int i=0;i<4;i++){
                 int newRow=row+dr[i];
                 int newCol=col+dc[i];
-                if(isValid(newRow,newCol,n,m) && image[newRow][newCol]==stColor && isVis[newRow][newCol]==false){
-                    isVis[newRow][newCol]=true;
+                if(isValid(newRow,newCol,n,m) && image[newRow][newCol]==stColor /*&& isVis[newRow][newCol]==false*/){
+                    // isVis[newRow][newCol]=true;
                     q.offer(new int[]{newRow,newCol});
                 }
             }
