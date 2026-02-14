@@ -15,7 +15,7 @@ class Solution {
                 if(isWater[i][j]==1){
                     height[i][j]=0;
                     q.offer(new int[]{i,j});
-                }
+                }else height[i][j]=-1;
             }
         }while(!q.isEmpty()){
             int curr[]=q.poll();
@@ -25,16 +25,13 @@ class Solution {
             for(int k=0;k<4;k++){
                 int newRow=row+dr[k];
                 int newCol=col+dc[k];
-                if(isValid(newRow,newCol,m,n) && isWater[newRow][newCol]==0 && height[newRow][newCol]==0 ){
+                if(isValid(newRow,newCol,m,n) && height[newRow][newCol]==-1 ){
                     height[newRow][newCol]=curHeight+1;
                     q.offer(new int[]{newRow,newCol});
                 }
             }
         }
         return height;
-
-
-
         
     }
 }
