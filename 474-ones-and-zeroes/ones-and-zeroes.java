@@ -14,7 +14,7 @@ class Solution {
         if(i==strs.length) return 0;
         if(dp[i][zeros][ones]!=-1) return dp[i][zeros][ones];
         int cz=count('0',strs[i]);
-        int co=count('1',strs[i]);
+        int co=strs[i].length()-cz;
         int take=0;
         if(cz<=zeros && co<=ones){
             take=1+largestSubset(i+1,zeros-cz,ones-co,strs,dp);
