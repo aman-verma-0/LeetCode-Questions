@@ -2,7 +2,8 @@ class Solution {
     public int numSquares(int n) {
         int[]dp=new int[n+1];
         Arrays.fill(dp,-1);
-        return findMinNum(1,n,dp);
+         findMinNum(1,n,dp);
+         return dp[n];
         
     }
     public int findMinNum(int i,int n,int[]dp ){
