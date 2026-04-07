@@ -1,22 +1,23 @@
 class Solution {
-    public int minPath(List<List<Integer>>triangle,int row,int col,Integer[][]dp){
-        if(dp[row][col]!=null) return dp[row][col];
-        if(row==triangle.size()-1){
-            return dp[row][col]=triangle.get(row).get(col);
-        }
-        int down=triangle.get(row).get(col)+minPath(triangle,row+1,col,dp);
-        int rightDiagonal=triangle.get(row).get(col)+minPath(triangle,row+1,col+1,dp);
-        return dp[row][col]=Math.min(down,rightDiagonal);
-        
-
-    }
     public int minimumTotal(List<List<Integer>> triangle) {
-        int row=triangle.size();
-        Integer[][]dp=new Integer[row][row];
-        for(Integer[]rows:dp){
-            Arrays.fill(rows,null);
+        int m=triangle.size();
+        Integer[][]dp=new Integer[m][m];
+        dp[0][0]=triangle.get(0).get(0);
+        for(int i=1;i<m;i++){
+            dp[i][0]=dp[i-1][0]+triangle.get(i).get(0);
+            dp[i][i]=dp[i-1][i-1]+triangle.get(i).get(i);
         }
-        return minPath(triangle,0,0,dp);
-        
+        for(int i=1;i<m;i++){
+            for(int j=1;j<=i;j++){
+                if(dp[i][j]==null){
+                    dp[i][j]=Math.min(dp[i-1][j],dp[i-1][j-1])+triangle.get(i).get(j);
+                }
+            }
+        }
+        int ans=Integer.MAX_VALUE;
+        for(int i=0;i<m;i++){
+            ans=Math.min(dp[m-1][i],ans);
+        }
+        return ans;
     }
 }
