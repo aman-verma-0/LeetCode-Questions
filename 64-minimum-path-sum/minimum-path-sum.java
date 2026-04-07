@@ -1,38 +1,27 @@
 class Solution {
-    int[]dr={1,0};
-    int[]dc={0,1};
-    public boolean isValid(int i,int j,int row,int col){
-        if(i<0||j<0||i>=row||j>=col) return false;
-        return true;
-    }
     public int minPathSum(int[][] grid) {
-        int n=grid.length;
-        int m=grid[0].length;
-        int[][]dist=new int[n][m];
-        for(int rows[]:dist){
-            Arrays.fill(rows,Integer.MAX_VALUE);
-        }
-        PriorityQueue<int[]>q=new PriorityQueue<>((a,b)->Integer.compare(a[2],b[2]));
-        q.add(new int[]{0,0,grid[0][0]});
-        dist[0][0]=grid[0][0];
-        while(!q.isEmpty()){
-            int []cur=q.poll();
-            int row=cur[0];
-            int col=cur[1];
-            int wt=cur[2];
-            for(int i=0;i<2;i++){
-                int nRow=row+dr[i];
-                int nCol=col+dc[i];
-                if(isValid(nRow,nCol,n,m)){
-                    int newWt=wt+grid[nRow][nCol];
-                    if(dist[nRow][nCol]>newWt){
-                        dist[nRow][nCol]=newWt;
-                        q.add(new int[]{nRow,nCol,dist[nRow][nCol]});
-                    }
+        int m=grid.length;
+        int n=grid[0].length;
+        int[][]dp=new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0){
+                    dp[i][j]=grid[i][j];
+                }
+                else if(i==0 && j>0){
+                    dp[i][j]=grid[i][j]+dp[i][j-1];
+                }
+                else if(j==0 && i>0){
+                    dp[i][j]=grid[i][j]+dp[i-1][j];
+                }
+                else{
+                    dp[i][j]=grid[i][j]+Math.min(dp[i-1][j],dp[i][j-1]);
+
                 }
             }
         }
-        return dist[n-1][m-1];
+        return dp[m-1][n-1];
+
         
     }
 }
