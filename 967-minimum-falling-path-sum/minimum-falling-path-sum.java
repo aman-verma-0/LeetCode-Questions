@@ -1,28 +1,33 @@
 class Solution {
-    public int minFallingPathSum(int[][] matrix) {
-        int n=matrix.length;
-        int m=matrix[0].length;
-        int ans=Integer.MAX_VALUE;
-        int[][]dp=new int[n][m];
-        for(int rows[]:dp){
-            Arrays.fill(rows,Integer.MAX_VALUE);
-        }
-        for(int i=0;i<m;i++){
-            ans=Math.min(ans,solve(0,i,matrix,dp));
-        }
-        return ans;     
+    public int isValid(int i,int j,int m,int n,Integer[][]dp){
+        if(i<0 || j<0|| i>=m || j>=n) return Integer.MAX_VALUE;
+        return dp[i][j];
     }
-    public int solve(int i,int j,int[][]matrix,int[][]dp){
-        int n=matrix.length;
-        int m=matrix[0].length;
-        if(j<0 || j>=m) return Integer.MAX_VALUE;
-        if(i==n-1) return matrix[i][j];
-        if(dp[i][j]!=Integer.MAX_VALUE) return dp[i][j];
-        int leftD=solve(i+1,j-1,matrix,dp);
-        int down=solve(i+1,j,matrix,dp);
-        int rightD=solve(i+1,j+1,matrix,dp);
-        int path=Math.min(leftD,Math.min(down,rightD));
-        if(path==Integer.MAX_VALUE) return dp[i][j]=Integer.MAX_VALUE;
-        return dp[i][j]=matrix[i][j]+path;
+    public int minFallingPathSum(int[][] matrix) {
+        int m=matrix.length;
+        int n=matrix[0].length;
+        Integer[][]dp=new Integer[m][n];
+        int ans=Integer.MAX_VALUE;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0){
+                    dp[i][j]=matrix[i][j];
+                }
+                else{
+                    int leftD=isValid(i-1,j-1,m,n,dp);
+                    int up=isValid(i-1,j,m,n,dp);
+                    int rightD=isValid(i-1,j+1,m,n,dp);
+                    dp[i][j]=matrix[i][j]+Math.min(leftD,Math.min(up,rightD));
+                    // if(i==m-1) ans=Math.min(ans,dp[i][j]);
+                }
+            }
+        }
+        for(int j=0;j<n;j++){
+            ans=Math.min(ans,dp[m-1][j]);
+        }
+        return ans;
+
+
+        
     }
 }
