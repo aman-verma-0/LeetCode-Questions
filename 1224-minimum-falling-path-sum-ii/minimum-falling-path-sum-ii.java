@@ -1,30 +1,38 @@
 class Solution {
     public int minFallingPathSum(int[][] grid) {
-        int n=grid.length;
-        Integer[][]dp=new Integer[n][n];
-        for(Integer rows[]:dp){
-            Arrays.fill(rows,Integer.MAX_VALUE);
-        }
-        int ans=Integer.MAX_VALUE;
-        for(int i=0;i<n;i++){
-            ans=Math.min(ans,solve(0,i,grid,dp));
-        }
-        return ans;
-    }
-    public int solve(int i,int j,int[][]grid,Integer[][]dp){
-        int n=grid.length;
-        if(j<0||j>=n) return Integer.MAX_VALUE;
-        if(i==n-1) return grid[i][j];
-        if(dp[i][j]!=Integer.MAX_VALUE) return dp[i][j];
-        int path=Integer.MAX_VALUE;
-        for(int k=0;k<n;k++){
-            if(k!=j){
-                path=Math.min(path,solve(i+1,k,grid,dp));
+        int m=grid.length;
+        int n=grid[0].length;
+        Integer[][]dp=new Integer[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0){
+                    dp[i][j]=grid[i][j];
+                }
+                else{
+                    int k=0;
+                    int minInRow=Integer.MAX_VALUE;
+                    while(k<n){
+                        if(k==j){
+                            k++;
+                            continue;
+
+                        }
+                        else{
+                            minInRow=Math.min(minInRow,dp[i-1][k]);
+                            k++; 
+                        }  
+                    }
+
+                    dp[i][j]=grid[i][j]+minInRow;
+                    
+                }
             }
         }
-        // int leftD=solve(i+1,j-1,grid,dp);
-        // int rightD=solve(i+1,j+1,grid,dp);
-        // int path=Math.min(leftD,rightD);
-        return dp[i][j]=grid[i][j]+path;
+        int ans=Integer.MAX_VALUE;
+        for(int j=0;j<n;j++){
+            ans=Math.min(ans,dp[m-1][j]);
+        }
+        return ans;
+        
     }
 }
