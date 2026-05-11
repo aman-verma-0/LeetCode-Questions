@@ -2,23 +2,24 @@ class Solution {
     public int change(int amount, int[] coins) {
         int n=coins.length;
         int[][]dp=new int[n+1][amount+1];
-        for(int rows[]:dp){
-            Arrays.fill(rows,-1);
+        for(int i=0;i<=n;i++){
+            dp[i][0]=1;
         }
-        return noOfCombinations(0,amount,coins,dp);
-
-
-        
-    }
-    public int noOfCombinations(int i,int amount,int[]coins,int[][]dp){
-        if(amount==0) return 1;
-        if(i==coins.length) return 0;
-        if(dp[i][amount]!=-1) return dp[i][amount];
-        int pick=0;
-        if(coins[i]<=amount){
-            pick=noOfCombinations(i,amount-coins[i],coins,dp);
+        for(int j=1;j<=amount;j++){
+            dp[n][j]=0;
         }
-        int skip=noOfCombinations(i+1,amount,coins,dp);
-        return dp[i][amount]=pick+skip;
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<=amount;j++){
+                int take=0;
+                if(coins[i]<=j){
+                    take=dp[i][j-coins[i]];
+                }
+                dp[i][j]=take+dp[i+1][j];
+                
+
+            }
+        }
+        return dp[0][amount];
+
     }
 }
