@@ -1,32 +1,25 @@
 class Solution {
     public int jump(int[] nums) {
         int n=nums.length;
-        int[]dist=new int[n];
-        Arrays.fill(dist,Integer.MAX_VALUE);
-        dist[0]=0;
-        boolean[]vis=new boolean[n];
-        vis[0]=true;
-        Queue<int[]> q=new LinkedList<>();
-        q.add(new int[]{0,0});
-        while(!q.isEmpty()){
-            int cur[]=q.poll();
-            int idx=cur[0];
-            int jump=cur[1];
-            for(int j=1;j<=nums[idx];j++){
-                int newIdx=idx+j;
-                if(newIdx<n && !vis[newIdx] ){
-                    vis[newIdx]=true;
-                    int newDist=jump+1;
-                    if(newDist<dist[newIdx]){
-                        dist[newIdx]=newDist;
-                        q.add(new int[]{newIdx,newDist});
-                    }
-                }
+        int[]dp=new int[n+1];
+        Arrays.fill(dp,-1);
+        return solve(0,nums,dp);   
+    }
+    public int solve(int i,int[]nums,int[]dp){
+        if(i==nums.length-1) return 0;
+        if(i>=nums.length) return Integer.MAX_VALUE;
+        if(dp[i]!=-1) return dp[i];
+        int ans=Integer.MAX_VALUE;
+        for(int j=1;j<=nums[i];j++){
+            int next=solve(i+j,nums,dp);
+            if(next!=Integer.MAX_VALUE){
+                int pick=1+next;
+                ans=Math.min(ans,pick);
             }
+
         }
-        return dist[n-1];
+        return dp[i]=ans;
 
 
-        
     }
 }
