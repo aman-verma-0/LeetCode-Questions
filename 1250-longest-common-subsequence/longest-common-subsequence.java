@@ -3,7 +3,6 @@ class Solution {
         int n1=text1.length();
         int n2=text2.length();
         int[][]dp=new int[n1+1][n2+1];
-        int ans=0;
         for(int i=n1-1;i>=0;i--){
             for(int j=n2-1;j>=0;j--){
                 int pick=0;
@@ -14,10 +13,9 @@ class Solution {
                     skip=Math.max(dp[i+1][j],dp[i][j+1]);
                 }
                 dp[i][j]=Math.max(pick,skip);
-                ans=Math.max(ans,dp[i][j]);
             }
         }
-        return ans;
+        return dp[0][0];
         
     }
 }
